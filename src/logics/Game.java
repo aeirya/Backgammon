@@ -3,7 +3,7 @@ package logics;
 import java.util.List;
 
 public class Game {
-    public class GameState{
+    public static class GameState{
         //dice
         public int numberOnDie1;
         public int numberOnDie2;
@@ -15,6 +15,8 @@ public class Game {
         public List<Color> colorOfCheckersOnColumn;
         public int numberOfBlackHitCheckers;
         public int numberOfWhiteHitCheckers;
+        public int numberOfWhiteBornOffCheckers;
+        public int numberOfBlackBornOffCheckers;
 
     }
     public GameState getState(){

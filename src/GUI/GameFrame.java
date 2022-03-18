@@ -1,5 +1,6 @@
 package GUI;
 
+import logics.Color;
 import logics.Game;
 
 import javax.swing.*;
@@ -19,27 +20,30 @@ public class GameFrame extends JFrame {
     public static final String BACKGROUND_PATH = "GameBackGround.png";
     public static final String WHITE_CHECKER_IMAGE_PATH = "whiteChecker.png";
     public static final String BLACK_CHECKER_IMAGE_PATH = "blackChecker.png";
-    public static final String WHITE_CHECKER_VERTICAL_IMAGE_PATH = "whiteChecker.png";
-    public static final String BLACK_CHECKER_VERTICAL_IMAGE_PATH = "blackChecker.png";
+    public static final String WHITE_CHECKER_VERTICAL_IMAGE_PATH = "whiteCheckerVertical.png";
+    public static final String BLACK_CHECKER_VERTICAL_IMAGE_PATH = "blackCheckerVertical.png";
 
     public static final Image BACKGROUND_IMAGE = Toolkit.getDefaultToolkit().getImage(BACKGROUND_PATH);
     public static final Image WHITE_CHECKER_IMAGE = Toolkit.getDefaultToolkit().getImage(WHITE_CHECKER_IMAGE_PATH);
     public static final Image BLACK_CHECKER_IMAGE = Toolkit.getDefaultToolkit().getImage(BLACK_CHECKER_IMAGE_PATH);
     public static final Image WHITE_CHECKER_VERTICAL_IMAGE = Toolkit.getDefaultToolkit().getImage(WHITE_CHECKER_VERTICAL_IMAGE_PATH);
     public static final Image BLACK_CHECKER_VERTICAL_IMAGE = Toolkit.getDefaultToolkit().getImage(BLACK_CHECKER_VERTICAL_IMAGE_PATH);
+
     private Game game;
 
     private JPanel pane;
     private JPanel board;
     private JLabel background;
     private List<CheckerColumn> points;
-    private CheckerColumn whiteHitCheckers;
-    private CheckerColumn blackHitCheckers;
-    private CheckerColumn whiteBornOffCheckers;
-    private CheckerColumn blackBornOffCheckers;
-    private JLabel leftDie;
-    private JLabel rightDie;
-    private List<JLabel> validMoves;
+    private HitCheckerColumn whiteHitCheckers;
+    private HitCheckerColumn blackHitCheckers;
+    private BarCheckerColumn whiteBornOffCheckers;
+    private BarCheckerColumn blackBornOffCheckers;
+    private UpdatableLabel leftDie;
+    private UpdatableLabel rightDie;
+    private List<UpdatableLabel> validMoves;
+    private List<UpdatableComponent> updatableComponents = new ArrayList<>();
+
     private GameFrame(){
 
     }
@@ -73,30 +77,56 @@ public class GameFrame extends JFrame {
         setContentPane(pane);
         points = new ArrayList<>();
         for (int i = 0; i < 24; i++) {
-            points.add(new CheckerColumn(i < 12 ? CheckerColumn.StackDirection.downwards : CheckerColumn.StackDirection.upwards,
-                    COLUMN_DIMENSION));
-
+            PointCheckerColumn point = new PointCheckerColumn(i < 12 ? CheckerColumn.StackDirection.upwards : CheckerColumn.StackDirection.downwards,
+                    COLUMN_DIMENSION,i);
+            points.add(point);
+            updatableComponents.add(point);
         }
-        leftDie = new JLabel("⚂", JLabel.CENTER);
+
+        String dieSymbols = "⚀⚁⚂⚃⚄⚅";
+
+        leftDie = new UpdatableLabel() {
+            @Override
+            public void update(Game.GameState state) {
+                setText(""+dieSymbols.charAt(state.numberOnDie1-1));
+            }
+        };
         leftDie.setPreferredSize(new Dimension(30,30));
-        rightDie = new JLabel("⚂", JLabel.CENTER);
+        updatableComponents.add(leftDie);
+        rightDie = new UpdatableLabel() {
+            @Override
+            public void update(Game.GameState state) {
+                setText(""+dieSymbols.charAt(state.numberOnDie2-1));
+            }
+        };
         rightDie.setPreferredSize(new Dimension(30,30));
+        updatableComponents.add(rightDie);
         validMoves = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
-            validMoves.add(new JLabel("4"));
+            UpdatableLabel label = new UpdatableLabel() {
+                @Override
+                public void update(Game.GameState state) {
+                    //TODO
+                }
+            };
+            validMoves.add(label);
+            updatableComponents.add(label);
         }
-        whiteHitCheckers = new CheckerColumn(CheckerColumn.StackDirection.downwards,
-                                            new Dimension(WIDTH_OF_CENTER_COLUMN, COLUMN_DIMENSION.height));
-        whiteHitCheckers.setCheckerImage(WHITE_CHECKER_IMAGE);
-        blackHitCheckers = new CheckerColumn(CheckerColumn.StackDirection.upwards,
-                new Dimension(WIDTH_OF_CENTER_COLUMN, COLUMN_DIMENSION.height));
-        blackHitCheckers.setCheckerImage(BLACK_CHECKER_IMAGE);
-        whiteBornOffCheckers = new CheckerColumn(CheckerColumn.StackDirection.upwards,
-                                            new Dimension(UP_LEFT_CORNER_X, COLUMN_DIMENSION.height));
-        whiteBornOffCheckers.setCheckerImage(WHITE_CHECKER_VERTICAL_IMAGE);
-        blackBornOffCheckers = new CheckerColumn(CheckerColumn.StackDirection.downwards,
-                new Dimension(UP_LEFT_CORNER_X, COLUMN_DIMENSION.height));
-        blackBornOffCheckers.setCheckerImage(BLACK_CHECKER_VERTICAL_IMAGE);
+        whiteHitCheckers = new HitCheckerColumn(CheckerColumn.StackDirection.downwards,
+                new Dimension(WIDTH_OF_CENTER_COLUMN, COLUMN_DIMENSION.height), Color.white);
+        blackHitCheckers = new HitCheckerColumn(CheckerColumn.StackDirection.upwards,
+                new Dimension(WIDTH_OF_CENTER_COLUMN, COLUMN_DIMENSION.height), Color.black);
+        whiteBornOffCheckers = new BarCheckerColumn(CheckerColumn.StackDirection.upwards,
+                new Dimension(PIECE_WIDTH, COLUMN_DIMENSION.height),Color.white);
+        blackBornOffCheckers = new BarCheckerColumn(CheckerColumn.StackDirection.downwards,
+                new Dimension(PIECE_WIDTH, COLUMN_DIMENSION.height),Color.black);
+
+        updatableComponents.add(whiteHitCheckers);
+        updatableComponents.add(blackHitCheckers);
+
+        updatableComponents.add(whiteBornOffCheckers);
+        updatableComponents.add(blackBornOffCheckers);
+
     }
     private void alignComponents(){
         pane.setLayout(null);
@@ -163,6 +193,11 @@ public class GameFrame extends JFrame {
 
     }
 
+    public void updateComponents(Game.GameState state){
+        for (UpdatableComponent component : updatableComponents) {
+            component.update(state);
+        }
+    }
     public void repaintFrame(){
         this.revalidate();
         this.repaint();
