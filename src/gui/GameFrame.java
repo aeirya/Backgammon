@@ -45,15 +45,8 @@ public class GameFrame extends JFrame {
     private List<UpdatableComponent> updatableComponents = new ArrayList<>();
     private Queue<Choice> choices = new LinkedList<>();
 
-    private GameFrame(){
-
-    }
-
-    public void initGame(){
-        // initiate game logical components
-        game = new Game();
-        game.setUp();
-
+    public GameFrame(Game game){
+        this.game = game;
         //construct board components
         initComponents();
         alignComponents();
@@ -69,6 +62,8 @@ public class GameFrame extends JFrame {
 
         repaintFrame();
     }
+
+
 
     private void initComponents(){
         pane = new JPanel();
@@ -210,24 +205,21 @@ public class GameFrame extends JFrame {
             gbc.gridy = 1;
 
             board.add(validMoves.get(i), gbc);
+    }
         }
 
-    }
 
     public void updateComponents(Game.GameState state){
         for (UpdatableComponent component : updatableComponents) {
             component.update(state);
         }
+        repaintFrame();
     }
     public void repaintFrame(){
         this.revalidate();
         this.repaint();
     }
 
-    private static GameFrame instance = new GameFrame();
-    public static GameFrame getInstance(){
-        return instance;
-    }
 
     public void addChoice(Choice choice) {
         choices.add(choice);
@@ -235,7 +227,8 @@ public class GameFrame extends JFrame {
             Choice source = choices.poll();
             Choice destination = choices.poll();
             game.move(new Command(source, destination));
-            updateComponents(game.getState());
+            Game.GameState newState = game.getState();
+            updateComponents(newState);
         }
     }
 }

@@ -8,11 +8,13 @@ import gui.GameFrame;
 
 public class Main {
     public static void main(String[] args) {
-        GameFrame frame = GameFrame.getInstance();
-        frame.initGame();
+        Game game = new Game();
+        game.setUp();
+        GameFrame frame = new GameFrame(game);
 
 
-        frame.updateComponents(testState());
+
+//        frame.updateComponents(testState());
         frame.repaintFrame();
 
 

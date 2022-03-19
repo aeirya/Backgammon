@@ -1,5 +1,6 @@
 package gui.columns;
 
+import logic.Color;
 import logic.Game;
 import util.resource.ImageResource;
 
@@ -16,14 +17,13 @@ public class PointCheckerColumn extends CheckerColumn implements UpdatableCompon
 
     @Override
     public void update(Game.GameState state) {
-        switch (state.colorOfCheckersOnColumn.get(index)){
-            case BLACK:
-                setCheckerImage(ImageResource.BLACK_CHECKER);
-                break;
-            case WHITE:
-                setCheckerImage(ImageResource.WHITE_CHECKER);
-                break;
-        }
+
+        if (Color.BLACK.equals(state.colorOfCheckersOnColumn.get(index)))
+            setCheckerImage(ImageResource.BLACK_CHECKER);
+        else
+            setCheckerImage(ImageResource.WHITE_CHECKER);
+
+
         setNumberOfCheckers(state.numberOfCheckersOnColumn.get(index));
     }
 }
