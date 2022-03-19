@@ -16,6 +16,14 @@ public class Column {
         return false;
     }
 
+    public boolean removeTop(){
+        if (numberOfCheckers > 0){
+            numberOfCheckers -= 1;
+            return true;
+        }
+        return false;
+    }
+
     public int getNumberOfCheckers() {
         return numberOfCheckers;
     }

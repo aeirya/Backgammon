@@ -205,8 +205,8 @@ public class GameFrame extends JFrame {
             gbc.gridy = 1;
 
             board.add(validMoves.get(i), gbc);
-    }
         }
+    }
 
 
     public void updateComponents(Game.GameState state){

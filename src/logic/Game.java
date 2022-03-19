@@ -68,15 +68,33 @@ public class Game {
     }
     public void setUp(){
     }
-    public void move(Command command){
+    public boolean move(Command command){
         System.out.println(command);
         Choice source = command.source;
         Choice destination = command.destination;
         switch (source.type){
             case POINT:
-
+                if (destination.type == Command.ColumnType.MIDDLE)
+                    return false;
+                if (destination.type == Command.ColumnType.BAR)
+                    return moveToBar(command);
+                if (destination.type == Command.ColumnType.POINT)
+                    return moveFromPointToPoint(command);
                 break;
             default:
         }
+        return true;
+    }
+    private boolean moveFromPointToPoint(Command command){
+        //TODO
+        if (!points.get(command.source.index).removeTop())
+            return false;
+
+        return points.get(command.destination.index).addChecker(command.source.color);
+    }
+    private boolean moveToBar(Command command){
+
+        //TODO
+        return false;
     }
 }
