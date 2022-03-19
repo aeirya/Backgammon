@@ -47,9 +47,13 @@ public class GameFrame extends JFrame {
 
     public GameFrame(Game game){
         this.game = game;
+
+
         //construct board components
         initComponents();
         alignComponents();
+
+        updateComponents(game.getState());
 
         //settings
         setSize(new Dimension(GAME_FRAME_WIDTH, GAME_FRAME_HEIGHT));

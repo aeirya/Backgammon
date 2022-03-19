@@ -86,11 +86,12 @@ public class Game {
         return true;
     }
     private boolean moveFromPointToPoint(Command command){
-        //TODO
+        //TODO hitting a checker
+        Color checkerColor = points.get(command.source.index).getColor();
         if (!points.get(command.source.index).removeTop())
             return false;
 
-        return points.get(command.destination.index).addChecker(command.source.color);
+        return points.get(command.destination.index).addChecker(checkerColor);
     }
     private boolean moveToBar(Command command){
 

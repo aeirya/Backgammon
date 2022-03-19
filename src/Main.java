@@ -14,8 +14,6 @@ public class Main {
 
 
 
-//        frame.updateComponents(testState());
-        frame.repaintFrame();
 
 
     }
