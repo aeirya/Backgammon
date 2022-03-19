@@ -2,11 +2,11 @@ package gui.columns;
 
 import logic.Color;
 import logic.Game;
+import util.resource.ImageResource;
 
 import java.awt.*;
 
 import gui.UpdatableComponent;
-import gui.columns.CheckerColumn;
 
 public class HitCheckerColumn extends CheckerColumn implements UpdatableComponent {
     private final Color color;
@@ -15,11 +15,11 @@ public class HitCheckerColumn extends CheckerColumn implements UpdatableComponen
         super(direction, dimension);
         this.color = color;
         switch (color){
-            case black:
-                setCheckerImage(BLACK_CHECKER_IMAGE);
+            case BLACK:
+                setCheckerImage(ImageResource.BLACK_CHECKER);
                 break;
-            case white:
-                setCheckerImage(WHITE_CHECKER_IMAGE);
+            case WHITE:
+                setCheckerImage(ImageResource.WHITE_CHECKER);
                 break;
         }
     }
@@ -27,10 +27,10 @@ public class HitCheckerColumn extends CheckerColumn implements UpdatableComponen
     @Override
     public void update(Game.GameState state) {
         switch (color){
-            case black :
+            case BLACK :
                 setNumberOfCheckers(state.numberOfBlackHitCheckers);
                 break;
-            case white:
+            case WHITE:
                 setNumberOfCheckers(state.numberOfWhiteHitCheckers);
                 break;
         }

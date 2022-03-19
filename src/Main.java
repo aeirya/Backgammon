@@ -1,6 +1,6 @@
 import logic.Game;
 
-import static logic.Color.black;
+import static logic.Color.BLACK;
 
 import java.util.ArrayList;
 
@@ -32,7 +32,7 @@ public class Main {
 
         for (int i = 0; i < 24; i++) {
             state.numberOfCheckersOnColumn.add(i % 4 + 2);
-            state.colorOfCheckersOnColumn.add(black);
+            state.colorOfCheckersOnColumn.add(BLACK);
         }
         return state;
     }

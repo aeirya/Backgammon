@@ -2,6 +2,7 @@ package gui.columns;
 
 import logic.Color;
 import logic.Game;
+import util.resource.ImageResource;
 
 import java.awt.*;
 
@@ -14,23 +15,19 @@ public class BarCheckerColumn extends CheckerColumn implements UpdatableComponen
     public BarCheckerColumn(StackDirection direction, Dimension dimension, Color color) {
         super(direction, dimension);
         this.color = color;
-        switch (color){
-            case black:
-                setCheckerImage(BLACK_CHECKER_VERTICAL_IMAGE);
-                break;
-            case white:
-                setCheckerImage(WHITE_CHECKER_VERTICAL_IMAGE);
-                break;
-        }
+
+        setCheckerImage(
+            color.equals(Color.BLACK) ? ImageResource.BLACK_CHECKER_VERTICAL : ImageResource.WHITE_CHECKER_VERTICAL
+        );
     }
 
     @Override
     public void update(Game.GameState state) {
         switch (color){
-            case black:
+            case BLACK:
                 setNumberOfCheckers(state.numberOfBlackBornOffCheckers);
                 break;
-            case white:
+            case WHITE:
                 setNumberOfCheckers(state.numberOfWhiteBornOffCheckers);
                 break;
         }

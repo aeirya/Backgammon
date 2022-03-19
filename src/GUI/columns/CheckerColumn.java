@@ -3,19 +3,11 @@ package gui.columns;
 import javax.swing.*;
 
 import logic.Game;
+import util.resource.ImageResource;
+import util.resource.ResourceManager;
 
 import java.awt.*;
 public class CheckerColumn extends JPanel{
-
-    public static final String WHITE_CHECKER_IMAGE_PATH = "whiteChecker.png";
-    public static final String BLACK_CHECKER_IMAGE_PATH = "blackChecker.png";
-    public static final String WHITE_CHECKER_VERTICAL_IMAGE_PATH = "whiteCheckerVertical.png";
-    public static final String BLACK_CHECKER_VERTICAL_IMAGE_PATH = "blackCheckerVertical.png";
-
-    public static final Image WHITE_CHECKER_IMAGE = Toolkit.getDefaultToolkit().getImage(WHITE_CHECKER_IMAGE_PATH);
-    public static final Image BLACK_CHECKER_IMAGE = Toolkit.getDefaultToolkit().getImage(BLACK_CHECKER_IMAGE_PATH);
-    public static final Image WHITE_CHECKER_VERTICAL_IMAGE = Toolkit.getDefaultToolkit().getImage(WHITE_CHECKER_VERTICAL_IMAGE_PATH);
-    public static final Image BLACK_CHECKER_VERTICAL_IMAGE = Toolkit.getDefaultToolkit().getImage(BLACK_CHECKER_VERTICAL_IMAGE_PATH);
 
     public enum StackDirection{
         upwards, downwards
@@ -47,9 +39,10 @@ public class CheckerColumn extends JPanel{
         }
     }
 
-    public void setCheckerImage(Image checkerImage) {
-        this.checkerImage = checkerImage;
-        ImageIcon icon = new ImageIcon(checkerImage);
+    public void setCheckerImage(ImageResource checkerImageType) {
+        Image image = ResourceManager.get(checkerImageType);
+        this.checkerImage = image;
+        ImageIcon icon = new ImageIcon(image);
         this.checkerWidth = icon.getIconWidth();
         this.checkerHeight = icon.getIconHeight();
     }

@@ -1,11 +1,11 @@
 package gui.columns;
 
 import logic.Game;
+import util.resource.ImageResource;
 
 import java.awt.*;
 
 import gui.UpdatableComponent;
-import gui.columns.CheckerColumn;
 
 public class PointCheckerColumn extends CheckerColumn implements UpdatableComponent {
     private final int index;
@@ -17,11 +17,11 @@ public class PointCheckerColumn extends CheckerColumn implements UpdatableCompon
     @Override
     public void update(Game.GameState state) {
         switch (state.colorOfCheckersOnColumn.get(index)){
-            case black:
-                setCheckerImage(BLACK_CHECKER_IMAGE);
+            case BLACK:
+                setCheckerImage(ImageResource.BLACK_CHECKER);
                 break;
-            case white:
-                setCheckerImage(WHITE_CHECKER_IMAGE);
+            case WHITE:
+                setCheckerImage(ImageResource.WHITE_CHECKER);
                 break;
         }
         setNumberOfCheckers(state.numberOfCheckersOnColumn.get(index));

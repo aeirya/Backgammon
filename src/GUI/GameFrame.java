@@ -4,6 +4,8 @@ import logic.Choice;
 import logic.Color;
 import logic.Command;
 import logic.Game;
+import util.resource.ImageResource;
+import util.resource.ResourceManager;
 
 import javax.swing.*;
 
@@ -26,18 +28,6 @@ public class GameFrame extends JFrame {
     public static final int UP_LEFT_CORNER_Y = 30;
     public static final Dimension COLUMN_DIMENSION = new Dimension(47, 270);
     public static final int WIDTH_OF_CENTER_COLUMN = 30;
-
-    public static final String BACKGROUND_PATH = "GameBackGround.png";
-    public static final String WHITE_CHECKER_IMAGE_PATH = "whiteChecker.png";
-    public static final String BLACK_CHECKER_IMAGE_PATH = "blackChecker.png";
-    public static final String WHITE_CHECKER_VERTICAL_IMAGE_PATH = "whiteCheckerVertical.png";
-    public static final String BLACK_CHECKER_VERTICAL_IMAGE_PATH = "blackCheckerVertical.png";
-
-    public static final Image BACKGROUND_IMAGE = Toolkit.getDefaultToolkit().getImage(BACKGROUND_PATH);
-    public static final Image WHITE_CHECKER_IMAGE = Toolkit.getDefaultToolkit().getImage(WHITE_CHECKER_IMAGE_PATH);
-    public static final Image BLACK_CHECKER_IMAGE = Toolkit.getDefaultToolkit().getImage(BLACK_CHECKER_IMAGE_PATH);
-    public static final Image WHITE_CHECKER_VERTICAL_IMAGE = Toolkit.getDefaultToolkit().getImage(WHITE_CHECKER_VERTICAL_IMAGE_PATH);
-    public static final Image BLACK_CHECKER_VERTICAL_IMAGE = Toolkit.getDefaultToolkit().getImage(BLACK_CHECKER_VERTICAL_IMAGE_PATH);
 
     private Game game;
 
@@ -84,7 +74,7 @@ public class GameFrame extends JFrame {
         pane = new JPanel();
         board = new JPanel();
         board.setOpaque(false);
-        background = new JLabel(new ImageIcon(BACKGROUND_IMAGE));
+        background = new JLabel(new ImageIcon(ResourceManager.get(ImageResource.BACKGROUND)));
         setContentPane(pane);
         points = new ArrayList<>();
         for (int i = 0; i < 24; i++) {
@@ -124,13 +114,13 @@ public class GameFrame extends JFrame {
             validMoves.add(label);
         }
         whiteHitCheckers = new HitCheckerColumn(CheckerColumn.StackDirection.downwards,
-                new Dimension(WIDTH_OF_CENTER_COLUMN, COLUMN_DIMENSION.height), Color.white);
+                new Dimension(WIDTH_OF_CENTER_COLUMN, COLUMN_DIMENSION.height), Color.WHITE);
         blackHitCheckers = new HitCheckerColumn(CheckerColumn.StackDirection.upwards,
-                new Dimension(WIDTH_OF_CENTER_COLUMN, COLUMN_DIMENSION.height), Color.black);
+                new Dimension(WIDTH_OF_CENTER_COLUMN, COLUMN_DIMENSION.height), Color.BLACK);
         whiteBornOffCheckers = new BarCheckerColumn(CheckerColumn.StackDirection.upwards,
-                new Dimension(PIECE_WIDTH, COLUMN_DIMENSION.height),Color.white);
+                new Dimension(PIECE_WIDTH, COLUMN_DIMENSION.height),Color.WHITE);
         blackBornOffCheckers = new BarCheckerColumn(CheckerColumn.StackDirection.downwards,
-                new Dimension(PIECE_WIDTH, COLUMN_DIMENSION.height),Color.black);
+                new Dimension(PIECE_WIDTH, COLUMN_DIMENSION.height),Color.BLACK);
 
 
         addMouseAdapters();
@@ -154,10 +144,10 @@ public class GameFrame extends JFrame {
         for (int i = 0; i < 24; i++) {
             points.get(i).addMouseListener(new ColumnMouseEventHandler(this, new Choice(Command.columnType.point, i, null)));
         }
-        blackHitCheckers.addMouseListener(new ColumnMouseEventHandler(this, new Choice(Command.columnType.middle, 0, Color.black)));
-        whiteHitCheckers.addMouseListener(new ColumnMouseEventHandler(this, new Choice(Command.columnType.middle, 0, Color.white)));
-        blackBornOffCheckers.addMouseListener(new ColumnMouseEventHandler(this, new Choice(Command.columnType.bar, 0, Color.black)));
-        whiteBornOffCheckers.addMouseListener(new ColumnMouseEventHandler(this, new Choice(Command.columnType.bar, 0, Color.white)));
+        blackHitCheckers.addMouseListener(new ColumnMouseEventHandler(this, new Choice(Command.columnType.middle, 0, Color.BLACK)));
+        whiteHitCheckers.addMouseListener(new ColumnMouseEventHandler(this, new Choice(Command.columnType.middle, 0, Color.WHITE)));
+        blackBornOffCheckers.addMouseListener(new ColumnMouseEventHandler(this, new Choice(Command.columnType.bar, 0, Color.BLACK)));
+        whiteBornOffCheckers.addMouseListener(new ColumnMouseEventHandler(this, new Choice(Command.columnType.bar, 0, Color.WHITE)));
     }
     private void alignComponents(){
         pane.setLayout(null);
