@@ -1,10 +1,9 @@
-package GUI;
+package GUI.columns;
 
 import logics.Game;
 
 import javax.swing.*;
 import java.awt.*;
-// TODO must be package level
 public class CheckerColumn extends JPanel{
 
     public static final String WHITE_CHECKER_IMAGE_PATH = "whiteChecker.png";
@@ -21,9 +20,9 @@ public class CheckerColumn extends JPanel{
         upwards, downwards
     }
 
-    private StackDirection direction;
+    private final StackDirection direction;
     private Image checkerImage;
-    private Dimension dimension;
+    private final Dimension dimension;
     private int checkerHeight;
     private int checkerWidth;
     public CheckerColumn(StackDirection direction, Dimension dimension){
@@ -49,7 +48,8 @@ public class CheckerColumn extends JPanel{
 
     public void setCheckerImage(Image checkerImage) {
         this.checkerImage = checkerImage;
-        this.checkerWidth = checkerImage.getWidth(null);
-        this.checkerHeight = checkerImage.getHeight(null);
+        ImageIcon icon = new ImageIcon(checkerImage);
+        this.checkerWidth = icon.getIconWidth();
+        this.checkerHeight = icon.getIconHeight();
     }
 }

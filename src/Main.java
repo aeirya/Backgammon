@@ -1,11 +1,7 @@
-import GUI.CheckerColumn;
 import GUI.GameFrame;
-import logics.Color;
 import logics.Game;
 
-import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import static logics.Color.black;
 
@@ -17,7 +13,7 @@ public class Main {
 
         frame.updateComponents(testState());
         frame.repaintFrame();
-;
+
 
     }
 

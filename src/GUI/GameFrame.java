@@ -1,20 +1,28 @@
 package GUI;
 
+import GUI.columns.BarCheckerColumn;
+import GUI.columns.CheckerColumn;
+import GUI.columns.HitCheckerColumn;
+import GUI.columns.PointCheckerColumn;
+import logics.Choice;
 import logics.Color;
+import logics.Command;
 import logics.Game;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 public class GameFrame extends JFrame {
     public static final int GAME_FRAME_WIDTH = 673;
     public static final int GAME_FRAME_HEIGHT = 703;
     public static final int PIECE_WIDTH = 30;
-    public static final int UP_LEFT_CORNER_X = 30;
+    public static final int UP_LEFT_CORNER_X = 40;
     public static final int UP_LEFT_CORNER_Y = 30;
-    public static final Dimension COLUMN_DIMENSION = new Dimension(46, 270);
+    public static final Dimension COLUMN_DIMENSION = new Dimension(47, 270);
     public static final int WIDTH_OF_CENTER_COLUMN = 30;
 
     public static final String BACKGROUND_PATH = "GameBackGround.png";
@@ -34,7 +42,7 @@ public class GameFrame extends JFrame {
     private JPanel pane;
     private JPanel board;
     private JLabel background;
-    private List<CheckerColumn> points;
+    private List<PointCheckerColumn> points;
     private HitCheckerColumn whiteHitCheckers;
     private HitCheckerColumn blackHitCheckers;
     private BarCheckerColumn whiteBornOffCheckers;
@@ -43,6 +51,7 @@ public class GameFrame extends JFrame {
     private UpdatableLabel rightDie;
     private List<UpdatableLabel> validMoves;
     private List<UpdatableComponent> updatableComponents = new ArrayList<>();
+    private Queue<Choice> choices = new LinkedList<>();
 
     private GameFrame(){
 
@@ -80,7 +89,8 @@ public class GameFrame extends JFrame {
             PointCheckerColumn point = new PointCheckerColumn(i < 12 ? CheckerColumn.StackDirection.upwards : CheckerColumn.StackDirection.downwards,
                     COLUMN_DIMENSION,i);
             points.add(point);
-            updatableComponents.add(point);
+
+
         }
 
         String dieSymbols = "⚀⚁⚂⚃⚄⚅";
@@ -91,16 +101,16 @@ public class GameFrame extends JFrame {
                 setText(""+dieSymbols.charAt(state.numberOnDie1-1));
             }
         };
-        leftDie.setPreferredSize(new Dimension(30,30));
-        updatableComponents.add(leftDie);
+        leftDie.setPreferredSize(new Dimension(WIDTH_OF_CENTER_COLUMN/2,30));
+
         rightDie = new UpdatableLabel() {
             @Override
             public void update(Game.GameState state) {
                 setText(""+dieSymbols.charAt(state.numberOnDie2-1));
             }
         };
-        rightDie.setPreferredSize(new Dimension(30,30));
-        updatableComponents.add(rightDie);
+        rightDie.setPreferredSize(new Dimension(WIDTH_OF_CENTER_COLUMN / 2,30));
+
         validMoves = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
             UpdatableLabel label = new UpdatableLabel() {
@@ -110,7 +120,6 @@ public class GameFrame extends JFrame {
                 }
             };
             validMoves.add(label);
-            updatableComponents.add(label);
         }
         whiteHitCheckers = new HitCheckerColumn(CheckerColumn.StackDirection.downwards,
                 new Dimension(WIDTH_OF_CENTER_COLUMN, COLUMN_DIMENSION.height), Color.white);
@@ -121,12 +130,32 @@ public class GameFrame extends JFrame {
         blackBornOffCheckers = new BarCheckerColumn(CheckerColumn.StackDirection.downwards,
                 new Dimension(PIECE_WIDTH, COLUMN_DIMENSION.height),Color.black);
 
+
+        addMouseAdapters();
+        addUpdatables();
+    }
+    private void addUpdatables(){
+        updatableComponents.addAll(points);
+
+        updatableComponents.add(leftDie);
+        updatableComponents.add(rightDie);
+
+        updatableComponents.addAll(validMoves);
+
         updatableComponents.add(whiteHitCheckers);
         updatableComponents.add(blackHitCheckers);
 
         updatableComponents.add(whiteBornOffCheckers);
         updatableComponents.add(blackBornOffCheckers);
-
+    }
+    private void addMouseAdapters(){
+        for (int i = 0; i < 24; i++) {
+            points.get(i).addMouseListener(new ColumnMouseEventHandler(this, new Choice(Command.columnType.point, i, null)));
+        }
+        blackHitCheckers.addMouseListener(new ColumnMouseEventHandler(this, new Choice(Command.columnType.middle, 0, Color.black)));
+        whiteHitCheckers.addMouseListener(new ColumnMouseEventHandler(this, new Choice(Command.columnType.middle, 0, Color.white)));
+        blackBornOffCheckers.addMouseListener(new ColumnMouseEventHandler(this, new Choice(Command.columnType.bar, 0, Color.black)));
+        whiteBornOffCheckers.addMouseListener(new ColumnMouseEventHandler(this, new Choice(Command.columnType.bar, 0, Color.white)));
     }
     private void alignComponents(){
         pane.setLayout(null);
@@ -138,7 +167,7 @@ public class GameFrame extends JFrame {
                 GAME_FRAME_HEIGHT - UP_LEFT_CORNER_Y * 2);
         board.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-
+        gbc.anchor = GridBagConstraints.CENTER;
         for (int i = 0; i < 12; i++) {
             CheckerColumn upperColumn = points.get(12 + i);
             CheckerColumn lowerColumn = points.get(11 - i);
@@ -208,4 +237,13 @@ public class GameFrame extends JFrame {
         return instance;
     }
 
+    public void addChoice(Choice choice) {
+        choices.add(choice);
+        if (choices.size() > 1){
+            Choice source = choices.poll();
+            Choice destination = choices.poll();
+            game.move(new Command(source, destination));
+            updateComponents(game.getState());
+        }
+    }
 }

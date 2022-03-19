@@ -26,4 +26,8 @@ public class Game {
     public void setUp(){
         //TODO
     }
+    public void move(Command command){
+        System.out.println(command);
+        //TODO
+    }
 }

@@ -1,10 +1,12 @@
-package GUI;
+package GUI.columns;
 
+import GUI.UpdatableComponent;
+import GUI.columns.CheckerColumn;
 import logics.Game;
 
 import java.awt.*;
 
-public class PointCheckerColumn extends CheckerColumn implements UpdatableComponent{
+public class PointCheckerColumn extends CheckerColumn implements UpdatableComponent {
     private final int index;
     public PointCheckerColumn(StackDirection direction, Dimension dimension, int index) {
         super(direction, dimension);

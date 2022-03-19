@@ -1,11 +1,13 @@
-package GUI;
+package GUI.columns;
 
+import GUI.UpdatableComponent;
+import GUI.columns.CheckerColumn;
 import logics.Color;
 import logics.Game;
 
 import java.awt.*;
 
-public class HitCheckerColumn extends CheckerColumn implements UpdatableComponent{
+public class HitCheckerColumn extends CheckerColumn implements UpdatableComponent {
     private final Color color;
 
     public HitCheckerColumn(StackDirection direction, Dimension dimension, Color color) {
