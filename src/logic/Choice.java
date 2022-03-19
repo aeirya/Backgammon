@@ -1,11 +1,11 @@
 package logic;
 
 public class Choice {
-    public final Command.columnType type;
+    public final Command.ColumnType type;
     public final int index;
     public final Color color;
 
-    public Choice(Command.columnType type, int index, Color color) {
+    public Choice(Command.ColumnType type, int index, Color color) {
         this.type = type;
         this.index = index;
         this.color = color;
