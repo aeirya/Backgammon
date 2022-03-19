@@ -1,11 +1,12 @@
 package logic;
 
 public class Command {
-    public enum columnType{
-        middle, bar, point
+    public enum ColumnType{
+        MIDDLE, BAR, POINT
     }
 
-    public Choice source, destination;
+    public final Choice source;
+    public final Choice destination;
 
     public Command(Choice source, Choice destination) {
         this.source = source;

@@ -2,7 +2,6 @@ package gui.columns;
 
 import javax.swing.*;
 
-import logic.Game;
 import util.resource.ImageResource;
 import util.resource.ResourceManager;
 
@@ -10,7 +9,7 @@ import java.awt.*;
 public class CheckerColumn extends JPanel{
 
     public enum StackDirection{
-        upwards, downwards
+        UPWARDS, DOWNWARDS
     }
 
     private final StackDirection direction;
@@ -18,6 +17,7 @@ public class CheckerColumn extends JPanel{
     private final Dimension dimension;
     private int checkerHeight;
     private int checkerWidth;
+    
     public CheckerColumn(StackDirection direction, Dimension dimension){
         setLayout(null);
         setOpaque(false);
@@ -28,14 +28,14 @@ public class CheckerColumn extends JPanel{
     public void setNumberOfCheckers(int n){
         this.removeAll();
         int base = 0;
-        if (direction == StackDirection.upwards)
+        if (direction == StackDirection.UPWARDS)
             base = (int) Math.floor(dimension.getHeight()) - checkerImage.getHeight(null);
 
         for (int i = 0; i < n; i++) {
             JLabel checker = new JLabel(new ImageIcon(checkerImage));
             checker.setBounds(0, base, checkerImage.getWidth(null), checkerImage.getHeight(null));
             this.add(checker);
-            base += direction == StackDirection.downwards ? checkerHeight : -checkerHeight;
+            base += direction == StackDirection.DOWNWARDS ? checkerHeight : -checkerHeight;
         }
     }
 

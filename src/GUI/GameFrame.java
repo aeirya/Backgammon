@@ -78,7 +78,7 @@ public class GameFrame extends JFrame {
         setContentPane(pane);
         points = new ArrayList<>();
         for (int i = 0; i < 24; i++) {
-            PointCheckerColumn point = new PointCheckerColumn(i < 12 ? CheckerColumn.StackDirection.upwards : CheckerColumn.StackDirection.downwards,
+            PointCheckerColumn point = new PointCheckerColumn(i < 12 ? CheckerColumn.StackDirection.UPWARDS : CheckerColumn.StackDirection.DOWNWARDS,
                     COLUMN_DIMENSION,i);
             points.add(point);
 
@@ -113,13 +113,13 @@ public class GameFrame extends JFrame {
             };
             validMoves.add(label);
         }
-        whiteHitCheckers = new HitCheckerColumn(CheckerColumn.StackDirection.downwards,
+        whiteHitCheckers = new HitCheckerColumn(CheckerColumn.StackDirection.DOWNWARDS,
                 new Dimension(WIDTH_OF_CENTER_COLUMN, COLUMN_DIMENSION.height), Color.WHITE);
-        blackHitCheckers = new HitCheckerColumn(CheckerColumn.StackDirection.upwards,
+        blackHitCheckers = new HitCheckerColumn(CheckerColumn.StackDirection.UPWARDS,
                 new Dimension(WIDTH_OF_CENTER_COLUMN, COLUMN_DIMENSION.height), Color.BLACK);
-        whiteBornOffCheckers = new BarCheckerColumn(CheckerColumn.StackDirection.upwards,
+        whiteBornOffCheckers = new BarCheckerColumn(CheckerColumn.StackDirection.UPWARDS,
                 new Dimension(PIECE_WIDTH, COLUMN_DIMENSION.height),Color.WHITE);
-        blackBornOffCheckers = new BarCheckerColumn(CheckerColumn.StackDirection.downwards,
+        blackBornOffCheckers = new BarCheckerColumn(CheckerColumn.StackDirection.DOWNWARDS,
                 new Dimension(PIECE_WIDTH, COLUMN_DIMENSION.height),Color.BLACK);
 
 

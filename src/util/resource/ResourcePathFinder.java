@@ -12,7 +12,7 @@ public class ResourcePathFinder {
             case BLACK_CHECKER_VERTICAL:
                 return "blackCheckerVertical.png";
             case BACKGROUND:
-                return "GameBackGround.png";
+                return "GameBackground.png";
             default:
                 return type.toString();
         }
