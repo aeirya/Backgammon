@@ -1,9 +1,9 @@
-package GUI;
-
-import logics.Choice;
+package gui;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import logic.Choice;
 
 public class ColumnMouseEventHandler extends MouseAdapter {
     private GameFrame frame;

@@ -1,15 +1,17 @@
-package GUI;
+package gui;
 
-import GUI.columns.BarCheckerColumn;
-import GUI.columns.CheckerColumn;
-import GUI.columns.HitCheckerColumn;
-import GUI.columns.PointCheckerColumn;
-import logics.Choice;
-import logics.Color;
-import logics.Command;
-import logics.Game;
+import logic.Choice;
+import logic.Color;
+import logic.Command;
+import logic.Game;
 
 import javax.swing.*;
+
+import gui.columns.BarCheckerColumn;
+import gui.columns.CheckerColumn;
+import gui.columns.HitCheckerColumn;
+import gui.columns.PointCheckerColumn;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedList;

@@ -1,4 +1,4 @@
-package logics;
+package logic;
 
 public class Command {
     public enum columnType{

@@ -1,10 +1,11 @@
-package GUI.columns;
+package gui.columns;
 
-import GUI.UpdatableComponent;
-import logics.Color;
-import logics.Game;
+import logic.Color;
+import logic.Game;
 
 import java.awt.*;
+
+import gui.UpdatableComponent;
 
 
 public class BarCheckerColumn extends CheckerColumn implements UpdatableComponent {

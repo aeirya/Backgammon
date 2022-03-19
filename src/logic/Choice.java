@@ -1,4 +1,4 @@
-package logics;
+package logic;
 
 public class Choice {
     public final Command.columnType type;

@@ -1,9 +1,10 @@
-import GUI.GameFrame;
-import logics.Game;
+import logic.Game;
+
+import static logic.Color.black;
 
 import java.util.ArrayList;
 
-import static logics.Color.black;
+import gui.GameFrame;
 
 public class Main {
     public static void main(String[] args) {
@@ -20,7 +21,7 @@ public class Main {
     static Game.GameState testState(){
         Game.GameState state = new Game.GameState();
         state.numberOnDie1 = 3;
-        state.numberOnDie2=6;
+        state.numberOnDie2 = 6;
         state.validMoves = new ArrayList<>();
         state.numberOfCheckersOnColumn = new ArrayList<>();
         state.colorOfCheckersOnColumn = new ArrayList<>();

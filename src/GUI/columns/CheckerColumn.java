@@ -1,8 +1,9 @@
-package GUI.columns;
-
-import logics.Game;
+package gui.columns;
 
 import javax.swing.*;
+
+import logic.Game;
+
 import java.awt.*;
 public class CheckerColumn extends JPanel{
 

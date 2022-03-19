@@ -1,6 +1,6 @@
-package GUI;
+package gui;
 
-import logics.Game;
+import logic.Game;
 
 public interface UpdatableComponent {
     void update(Game.GameState state);

@@ -1,11 +1,12 @@
-package GUI.columns;
+package gui.columns;
 
-import GUI.UpdatableComponent;
-import GUI.columns.CheckerColumn;
-import logics.Color;
-import logics.Game;
+import logic.Color;
+import logic.Game;
 
 import java.awt.*;
+
+import gui.UpdatableComponent;
+import gui.columns.CheckerColumn;
 
 public class HitCheckerColumn extends CheckerColumn implements UpdatableComponent {
     private final Color color;
