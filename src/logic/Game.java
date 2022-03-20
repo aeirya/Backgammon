@@ -1,5 +1,7 @@
 package logic;
 
+import gui.columns.PointCheckerColumn;
+
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -137,6 +139,40 @@ public class Game {
                         numberOfCheckersAtHome += homePoint.getNumberOfCheckers();
                 }
                 return numberOfCheckersAtHome == 15;
+            }
+        });
+        //Rule: checkers can only move towards home
+        addRule(new Rule(this) {
+            @Override
+            public boolean isValid(Command command) {
+                if (command.source.type != Command.ColumnType.POINT)
+                    return true;
+                if (command.destination.type != Command.ColumnType.POINT)
+                    return true;
+                boolean direction = command.destination.index > command.source.index;
+                boolean validDirection = points.get(command.source.index).getColor() == Color.BLACK;
+                return direction == validDirection;
+            }
+        });
+        //Rule: if one participant has a hit checker, only moving hit checkers is possible
+        addRule(new Rule(this) {
+            @Override
+            public boolean isValid(Command command) {
+                if (command.source.type == Command.ColumnType.MIDDLE)
+                    return true;
+                if (command.source.type == Command.ColumnType.POINT){
+                    Column sourceColumn = points.get(command.source.index);
+                    switch (sourceColumn.getColor()){
+                        case WHITE:
+                            return whiteCapturedCheckers.getNumberOfCheckers() == 0;
+                        case BLACK:
+                            return blackCapturedCheckers.getNumberOfCheckers() == 0;
+                        default:
+                            return false;
+
+                    }
+                }
+                return false;
             }
         });
     }
