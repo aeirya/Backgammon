@@ -28,6 +28,7 @@ public class Game {
     private Column blackCapturedCheckers;
     private Column whiteBornOffCheckers;
     private Column blackBornOffCheckers;
+    private Rule ruleRoot;
 
     public static final List<Integer> NUMBER_OF_CHECKERS = Arrays.asList(new Integer[]{2, 0, 0, 0, 0, 5,    0, 3, 0, 0, 0, 5,
                                                                                          5, 0, 0, 0, 3, 0,   5, 0, 0, 0, 0, 2});
@@ -46,6 +47,7 @@ public class Game {
 
         whiteBornOffCheckers = new Column(Color.WHITE, 0);
         blackBornOffCheckers = new Column(Color.BLACK, 0);
+        initSetOfRules();
     }
 
     public GameState getState(){
@@ -66,10 +68,32 @@ public class Game {
 
         return state;
     }
-    public void setUp(){
+    private void initSetOfRules(){
+        //Rule: bar cannot be chosen as the source of the command
+        addRule(new Rule(this) {
+            @Override
+            public boolean isValid(Command command) {
+                return command.source.type != Command.ColumnType.BAR;
+            }
+        });
+        //Rule: source cannot be empty
+        addRule(new Rule(this) {
+            @Override
+            public boolean isValid(Command command) {
+                if (command.source.type == Command.ColumnType.MIDDLE)
+                    return (command.source.color == Color.BLACK ? blackCapturedCheckers:whiteCapturedCheckers).getNumberOfCheckers() != 0;
+                if (command.source.type == Command.ColumnType.POINT)
+                    return points.get(command.source.index).getNumberOfCheckers() != 0;
+                return false;
+            }
+        });
     }
     public boolean move(Command command){
         System.out.println(command);
+        if (!ruleRoot.check(command)) {
+            System.err.println("not possible");
+            return false;
+        }
         Choice source = command.source;
         Choice destination = command.destination;
         switch (source.type){
@@ -83,6 +107,7 @@ public class Game {
                 break;
             default:
         }
+        //TODO what should the default return value be?
         return true;
     }
     private boolean moveFromPointToPoint(Command command){
@@ -97,5 +122,10 @@ public class Game {
 
         //TODO
         return false;
+    }
+
+    private void addRule(Rule rule){
+        rule.setNext(ruleRoot);
+        ruleRoot = rule;
     }
 }

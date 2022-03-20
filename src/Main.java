@@ -9,13 +9,7 @@ import gui.GameFrame;
 public class Main {
     public static void main(String[] args) {
         Game game = new Game();
-        game.setUp();
         GameFrame frame = new GameFrame(game);
-
-
-
-
-
     }
 
     static Game.GameState testState(){
