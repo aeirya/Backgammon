@@ -1,11 +1,11 @@
 package gui;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import logic.Choice;
 
-public class ColumnMouseEventHandler extends MouseAdapter {
+public class ColumnMouseEventHandler implements ActionListener {
     private GameFrame frame;
     private Choice choice;
 
@@ -14,8 +14,10 @@ public class ColumnMouseEventHandler extends MouseAdapter {
         this.choice = choice;
     }
 
+
+
     @Override
-    public void mouseClicked(MouseEvent e) {
+    public void actionPerformed(ActionEvent e) {
         frame.addChoice(this.choice);
     }
 }

@@ -141,12 +141,12 @@ public class GameFrame extends JFrame {
     }
     private void addMouseAdapters(){
         for (int i = 0; i < 24; i++) {
-            points.get(i).addMouseListener(new ColumnMouseEventHandler(this, new Choice(Command.ColumnType.POINT, i, null)));
+            points.get(i).addActionListener(new ColumnMouseEventHandler(this, new Choice(Command.ColumnType.POINT, i, null)));
         }
-        blackHitCheckers.addMouseListener(new ColumnMouseEventHandler(this, new Choice(Command.ColumnType.MIDDLE, 0, Color.BLACK)));
-        whiteHitCheckers.addMouseListener(new ColumnMouseEventHandler(this, new Choice(Command.ColumnType.MIDDLE, 0, Color.WHITE)));
-        blackBornOffCheckers.addMouseListener(new ColumnMouseEventHandler(this, new Choice(Command.ColumnType.BAR, 0, Color.BLACK)));
-        whiteBornOffCheckers.addMouseListener(new ColumnMouseEventHandler(this, new Choice(Command.ColumnType.BAR, 0, Color.WHITE)));
+        blackHitCheckers.addActionListener(new ColumnMouseEventHandler(this, new Choice(Command.ColumnType.MIDDLE, 0, Color.BLACK)));
+        whiteHitCheckers.addActionListener(new ColumnMouseEventHandler(this, new Choice(Command.ColumnType.MIDDLE, 0, Color.WHITE)));
+        blackBornOffCheckers.addActionListener(new ColumnMouseEventHandler(this, new Choice(Command.ColumnType.BAR, 0, Color.BLACK)));
+        whiteBornOffCheckers.addActionListener(new ColumnMouseEventHandler(this, new Choice(Command.ColumnType.BAR, 0, Color.WHITE)));
     }
     private void alignComponents(){
         pane.setLayout(null);
@@ -226,6 +226,7 @@ public class GameFrame extends JFrame {
 
 
     public void addChoice(Choice choice) {
+        System.out.println(choice);
         choices.add(choice);
         if (choices.size() > 1){
             Choice source = choices.poll();

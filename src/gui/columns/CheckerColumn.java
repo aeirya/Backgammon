@@ -6,7 +6,7 @@ import util.resource.ImageResource;
 import util.resource.ResourceManager;
 
 import java.awt.*;
-public class CheckerColumn extends JPanel{
+public class CheckerColumn extends JButton{
 
     public enum StackDirection{
         UPWARDS, DOWNWARDS
@@ -17,13 +17,17 @@ public class CheckerColumn extends JPanel{
     private final Dimension dimension;
     private int checkerHeight;
     private int checkerWidth;
+    private int middleX;
     
     public CheckerColumn(StackDirection direction, Dimension dimension){
         setLayout(null);
         setOpaque(false);
+        setFocusable(false);
+        setBorderPainted(false);
         this.direction = direction;
         this.dimension = dimension;
         this.setPreferredSize(dimension);
+        this.middleX = (int)Math.floor(dimension.getWidth() / 2);
     }
     public void setNumberOfCheckers(int n){
         this.removeAll();
@@ -33,7 +37,7 @@ public class CheckerColumn extends JPanel{
 
         for (int i = 0; i < n; i++) {
             JLabel checker = new JLabel(new ImageIcon(checkerImage));
-            checker.setBounds(0, base, checkerImage.getWidth(null), checkerImage.getHeight(null));
+            checker.setBounds(middleX - checkerWidth / 2, base, checkerImage.getWidth(null), checkerImage.getHeight(null));
             this.add(checker);
             base += direction == StackDirection.DOWNWARDS ? checkerHeight : -checkerHeight;
         }
