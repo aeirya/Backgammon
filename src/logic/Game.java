@@ -116,8 +116,23 @@ public class Game {
     private boolean moveFromMiddle(Command command) {
         if (command.destination.type != Command.ColumnType.POINT)
             return false;
-//        if ()
-        return false;
+        Column destinationColumn = points.get(command.destination.index);
+        if (destinationColumn.getNumberOfCheckers() > 0)
+            if (destinationColumn.getColor() != command.source.color)
+                if (!hit(destinationColumn))
+                    return false;
+        if(!destinationColumn.addChecker(command.source.color))
+            return false;
+        switch (command.source.color){
+            case BLACK :
+                return blackCapturedCheckers.removeTop();
+            case WHITE:
+                return whiteCapturedCheckers.removeTop();
+            default:
+                return false;
+        }
+
+
     }
     private boolean hit(Column column){
         if (column.getNumberOfCheckers() > 1)

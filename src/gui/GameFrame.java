@@ -24,7 +24,7 @@ public class GameFrame extends JFrame {
     public static final int GAME_FRAME_WIDTH = 673;
     public static final int GAME_FRAME_HEIGHT = 703;
     public static final int PIECE_WIDTH = 30;
-    public static final int UP_LEFT_CORNER_X = 40;
+    public static final int UP_LEFT_CORNER_X = 30;
     public static final int UP_LEFT_CORNER_Y = 30;
     public static final Dimension COLUMN_DIMENSION = new Dimension(47, 270);
     public static final int WIDTH_OF_CENTER_COLUMN = 30;
