@@ -195,8 +195,8 @@ public class Game {
                 return moveFromMiddle(command);
             default:
         }
-        //TODO what should the default return value be?
-        return true;
+
+        return false;
     }
 
     private boolean moveFromMiddle(Command command) {
