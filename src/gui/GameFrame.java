@@ -41,9 +41,9 @@ public class GameFrame extends JFrame {
     private BarCheckerColumn blackBornOffCheckers;
     private UpdatableLabel leftDie;
     private UpdatableLabel rightDie;
-    private List<UpdatableLabel> validMoves;
     private List<UpdatableComponent> updatableComponents = new ArrayList<>();
     private Queue<Choice> choices = new LinkedList<>();
+    private JButton rollDiceButton;
 
     public GameFrame(Game game){
         this.game = game;
@@ -92,8 +92,9 @@ public class GameFrame extends JFrame {
                 setText(""+dieSymbols.charAt(state.numberOnDie1-1));
             }
         };
-        leftDie.setPreferredSize(new Dimension(WIDTH_OF_CENTER_COLUMN/2,30));
-
+        leftDie.setPreferredSize(new Dimension(WIDTH_OF_CENTER_COLUMN/2,25));
+        leftDie.setFont(new Font("Times",Font.BOLD,25));
+        leftDie.setForeground(java.awt.Color.BLUE);
         rightDie = new UpdatableLabel() {
             @Override
             public void update(Game.GameState state) {
@@ -101,17 +102,8 @@ public class GameFrame extends JFrame {
             }
         };
         rightDie.setPreferredSize(new Dimension(WIDTH_OF_CENTER_COLUMN / 2,30));
-
-        validMoves = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            UpdatableLabel label = new UpdatableLabel() {
-                @Override
-                public void update(Game.GameState state) {
-                    //TODO
-                }
-            };
-            validMoves.add(label);
-        }
+        rightDie.setFont(new Font("Times",Font.BOLD,25));
+        rightDie.setForeground(java.awt.Color.BLUE);
         whiteHitCheckers = new HitCheckerColumn(CheckerColumn.StackDirection.DOWNWARDS,
                 new Dimension(WIDTH_OF_CENTER_COLUMN, COLUMN_DIMENSION.height), Color.WHITE);
         blackHitCheckers = new HitCheckerColumn(CheckerColumn.StackDirection.UPWARDS,
@@ -121,7 +113,11 @@ public class GameFrame extends JFrame {
         blackBornOffCheckers = new BarCheckerColumn(CheckerColumn.StackDirection.DOWNWARDS,
                 new Dimension(PIECE_WIDTH, COLUMN_DIMENSION.height),Color.BLACK);
 
+        rollDiceButton = new JButton("Roll Dice!");
+        rollDiceButton.setFont(new Font("Times", Font.BOLD, 10));
+        rollDiceButton.setForeground(new java.awt.Color(145, 16, 170));
 
+        rollDiceButton.setPreferredSize(new Dimension(COLUMN_DIMENSION.width * 2,30));
         addMouseAdapters();
         addUpdatables();
     }
@@ -131,13 +127,13 @@ public class GameFrame extends JFrame {
         updatableComponents.add(leftDie);
         updatableComponents.add(rightDie);
 
-        updatableComponents.addAll(validMoves);
-
         updatableComponents.add(whiteHitCheckers);
         updatableComponents.add(blackHitCheckers);
 
         updatableComponents.add(whiteBornOffCheckers);
         updatableComponents.add(blackBornOffCheckers);
+
+
     }
     private void addMouseAdapters(){
         for (int i = 0; i < 24; i++) {
@@ -147,6 +143,11 @@ public class GameFrame extends JFrame {
         whiteHitCheckers.addActionListener(new ColumnMouseEventHandler(this, new Choice(Command.ColumnType.MIDDLE, 0, Color.WHITE)));
         blackBornOffCheckers.addActionListener(new ColumnMouseEventHandler(this, new Choice(Command.ColumnType.BAR, 0, Color.BLACK)));
         whiteBornOffCheckers.addActionListener(new ColumnMouseEventHandler(this, new Choice(Command.ColumnType.BAR, 0, Color.WHITE)));
+
+        rollDiceButton.addActionListener(e -> {
+            game.rollDice();
+            updateComponents(game.getState());
+        });
     }
     private void alignComponents(){
         pane.setLayout(null);
@@ -188,7 +189,7 @@ public class GameFrame extends JFrame {
 
         gbc.gridwidth = 1;
         gbc.gridheight = 1;
-        gbc.gridx = 6;
+        gbc.gridx = 10;
         gbc.gridy = 1;
         board.add(leftDie, gbc);
         gbc.gridx += 1;
@@ -202,14 +203,12 @@ public class GameFrame extends JFrame {
         gbc.gridy += 2;
         board.add(whiteBornOffCheckers, gbc);
 
-        for (int i = 0; i < 4; i++) {
-            gbc.gridheight = 1;
-            gbc.gridwidth = 1;
-            gbc.gridx = 9 + i;
-            gbc.gridy = 1;
+        gbc.gridwidth = 2;
+        gbc.gridheight = 1;
+        gbc.gridx = 2;
+        gbc.gridy = 1;
+        board.add(rollDiceButton, gbc);
 
-            board.add(validMoves.get(i), gbc);
-        }
     }
 
 

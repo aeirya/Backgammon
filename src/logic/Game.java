@@ -1,8 +1,5 @@
 package logic;
 
-import gui.columns.PointCheckerColumn;
-
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,6 +23,9 @@ public class Game {
 
     }
 
+    private Die die1;
+    private Die die2;
+
     private List<Column> points;
     private Column whiteCapturedCheckers;
     private Column blackCapturedCheckers;
@@ -41,6 +41,8 @@ public class Game {
                                                                                 Color.BLACK, null, null, null, null, Color.WHITE});
 
     public Game(){
+        die1 = new Die();
+        die2 = new Die();
         points = new ArrayList<>();
         for (int i = 0; i < 24; i++) {
             points.add(new Column(COLOR_OF_CHECKERS.get(i), NUMBER_OF_CHECKERS.get(i)));
@@ -55,9 +57,9 @@ public class Game {
 
     public GameState getState(){
         GameState state = new GameState();
-        //TODO dice
-        state.numberOnDie1 = 1;
-        state.numberOnDie2 = 1;
+
+        state.numberOnDie1 = die1.getNumber();
+        state.numberOnDie2 = die2.getNumber();
         state.validMoves = Arrays.asList(1, 1, 1, 1);
 
         state.numberOfCheckersOnColumn = points.stream().map(Column::getNumberOfCheckers).collect(Collectors.toList());
@@ -123,16 +125,12 @@ public class Game {
                 if (command.destination.type != Command.ColumnType.BAR)
                     return true;
                 int numberOfCheckersAtHome = 0;
-                switch (command.destination.color){
-                    case WHITE :
+                Column sourceColumn = points.get(command.source.index);
+                if (sourceColumn.getColor() == Color.WHITE)
                         numberOfCheckersAtHome += whiteBornOffCheckers.getNumberOfCheckers();
-                        break;
-                    case BLACK:
+                if (sourceColumn.getColor() == Color.BLACK)
                         numberOfCheckersAtHome += blackBornOffCheckers.getNumberOfCheckers();
-                        break;
-                    default:
-                        return false;
-                }
+
                 for (int i = 0; i < 6; i++) {
                     Column homePoint = points.get(command.destination.color == Color.BLACK ? 23 - i : i);
                     if (command.destination.color.equals(homePoint.getColor()))
@@ -162,19 +160,19 @@ public class Game {
                     return true;
                 if (command.source.type == Command.ColumnType.POINT){
                     Column sourceColumn = points.get(command.source.index);
-                    switch (sourceColumn.getColor()){
-                        case WHITE:
+                    if (sourceColumn.getColor() == Color.WHITE)
                             return whiteCapturedCheckers.getNumberOfCheckers() == 0;
-                        case BLACK:
+                    if (sourceColumn.getColor() == Color.BLACK)
                             return blackCapturedCheckers.getNumberOfCheckers() == 0;
-                        default:
-                            return false;
-
-                    }
+                    return false;
                 }
                 return false;
             }
         });
+    }
+    public void rollDice(){
+        die1.roll();
+        die2.roll();
     }
     public boolean move(Command command){
         System.out.println(command);
@@ -209,18 +207,14 @@ public class Game {
             if (destinationColumn.getColor() != command.source.color)
                 if (!hit(destinationColumn))
                     return false;
-        if(!destinationColumn.addChecker(command.source.color))
+        if (!destinationColumn.addChecker(command.source.color))
             return false;
-        switch (command.source.color){
-            case BLACK :
-                return blackCapturedCheckers.removeTop();
-            case WHITE:
-                return whiteCapturedCheckers.removeTop();
-            default:
-                return false;
-        }
+        if (command.source.color == Color.BLACK)
+            return blackCapturedCheckers.removeTop();
+        if (command.source.color == Color.WHITE)
+            return whiteCapturedCheckers.removeTop();
 
-
+        return false;
     }
     private boolean hit(Column column){
         if (column.getNumberOfCheckers() > 1)
