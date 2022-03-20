@@ -105,24 +105,43 @@ public class Game {
                 if (destination.type == Command.ColumnType.POINT)
                     return moveFromPointToPoint(command);
                 break;
+            case MIDDLE:
+                return moveFromMiddle(command);
             default:
         }
         //TODO what should the default return value be?
         return true;
     }
+
+    private boolean moveFromMiddle(Command command) {
+        if (command.destination.type != Command.ColumnType.POINT)
+            return false;
+//        if ()
+        return false;
+    }
+    private boolean hit(Column column){
+        if (column.getNumberOfCheckers() > 1)
+            return false;
+        switch (column.getColor()){
+            case BLACK :
+                return blackCapturedCheckers.addChecker(Color.BLACK);
+            case WHITE:
+                return whiteCapturedCheckers.addChecker(Color.WHITE);
+            default:
+                return false;
+        }
+
+    }
+
     private boolean moveFromPointToPoint(Command command){
 
         Color checkerColor = points.get(command.source.index).getColor();
         Column destinationColumn = points.get(command.destination.index);
         if (destinationColumn.getNumberOfCheckers() != 0)
-            if (destinationColumn.getColor() != checkerColor){
-                switch (destinationColumn.getColor()){
-                    case BLACK :
-                        blackCapturedCheckers.addChecker(Color.BLACK);
-                    case WHITE:
-                        whiteCapturedCheckers.addChecker(Color.WHITE);
-                }
-            }
+            if (destinationColumn.getColor() != checkerColor)
+               if (!hit(destinationColumn))
+                   return false;
+
 
         if (!points.get(command.source.index).removeTop())
             return false;
