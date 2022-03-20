@@ -1,5 +1,6 @@
 package logic;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -85,6 +86,57 @@ public class Game {
                 if (command.source.type == Command.ColumnType.POINT)
                     return points.get(command.source.index).getNumberOfCheckers() != 0;
                 return false;
+            }
+        });
+
+        //Rule: destination with opponent checkers should have at most one checker
+        addRule(new Rule(this) {
+            @Override
+            public boolean isValid(Command command) {
+                if (command.destination.type != Command.ColumnType.POINT)
+                    return true;
+                Column destinationColumn = points.get(command.destination.index);
+                if (destinationColumn.getNumberOfCheckers() < 2)
+                    return true;
+                if (command.source.type == Command.ColumnType.MIDDLE)
+                    return command.source.color == destinationColumn.getColor();
+                if (command.source.type == Command.ColumnType.POINT)
+                    return points.get(command.source.index).getColor() == destinationColumn.getColor();
+                return false;
+            }
+        });
+
+        //Rule: source and destination cannot be the same
+        addRule(new Rule(this) {
+            @Override
+            public boolean isValid(Command command) {
+                return !command.source.toString().equals(command.destination.toString());
+            }
+        });
+
+        //Rule: bearing off is only possible when all checkers are at home points
+        addRule(new Rule(this) {
+            @Override
+            public boolean isValid(Command command) {
+                if (command.destination.type != Command.ColumnType.BAR)
+                    return true;
+                int numberOfCheckersAtHome = 0;
+                switch (command.destination.color){
+                    case WHITE :
+                        numberOfCheckersAtHome += whiteBornOffCheckers.getNumberOfCheckers();
+                        break;
+                    case BLACK:
+                        numberOfCheckersAtHome += blackBornOffCheckers.getNumberOfCheckers();
+                        break;
+                    default:
+                        return false;
+                }
+                for (int i = 0; i < 6; i++) {
+                    Column homePoint = points.get(command.destination.color == Color.BLACK ? 23 - i : i);
+                    if (command.destination.color.equals(homePoint.getColor()))
+                        numberOfCheckersAtHome += homePoint.getNumberOfCheckers();
+                }
+                return numberOfCheckersAtHome == 15;
             }
         });
     }
