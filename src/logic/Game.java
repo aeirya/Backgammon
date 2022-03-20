@@ -111,17 +111,36 @@ public class Game {
         return true;
     }
     private boolean moveFromPointToPoint(Command command){
-        //TODO hitting a checker
+
         Color checkerColor = points.get(command.source.index).getColor();
+        Column destinationColumn = points.get(command.destination.index);
+        if (destinationColumn.getNumberOfCheckers() != 0)
+            if (destinationColumn.getColor() != checkerColor){
+                switch (destinationColumn.getColor()){
+                    case BLACK :
+                        blackCapturedCheckers.addChecker(Color.BLACK);
+                    case WHITE:
+                        whiteCapturedCheckers.addChecker(Color.WHITE);
+                }
+            }
+
         if (!points.get(command.source.index).removeTop())
             return false;
 
-        return points.get(command.destination.index).addChecker(checkerColor);
+        return destinationColumn.addChecker(checkerColor);
     }
     private boolean moveToBar(Command command){
+        if (!points.get(command.source.index).removeTop())
+            return false;
+        switch (command.destination.color){
+            case WHITE :
+                return whiteBornOffCheckers.addChecker(Color.WHITE);
+            case BLACK:
+                return blackBornOffCheckers.addChecker(Color.BLACK);
+            default:
+                return false;
+        }
 
-        //TODO
-        return false;
     }
 
     private void addRule(Rule rule){
