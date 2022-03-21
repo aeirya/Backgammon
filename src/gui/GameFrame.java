@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Queue;
 
 public class GameFrame extends JFrame {
+    public static final int DISPLAY_NUMBER = 0;
     public static final int GAME_FRAME_WIDTH = 673;
     public static final int GAME_FRAME_HEIGHT = 703;
     public static final int PIECE_WIDTH = 30;
@@ -57,11 +58,19 @@ public class GameFrame extends JFrame {
 
         //settings
         setSize(new Dimension(GAME_FRAME_WIDTH, GAME_FRAME_HEIGHT));
-        setLocationRelativeTo(null);
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-
         setTitle("Backgammon");
+
+        // open on the [DISPLAY_NUMBER]-th display
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice[] gd = ge.getScreenDevices();
+
+        setLocation(gd[DISPLAY_NUMBER].getDefaultConfiguration().getBounds().x +
+                    (gd[DISPLAY_NUMBER].getDefaultConfiguration().getBounds().width - GAME_FRAME_WIDTH) / 2, getY());
+
+
+
         setVisible(true);
 
         repaintFrame();
@@ -167,7 +176,7 @@ public class GameFrame extends JFrame {
             gbc.gridwidth = 1;
             gbc.gridheight = 1;
 
-            gbc.gridx = i < 6 ? i : i+2;
+            gbc.gridx = i < 6 ? i : i+1;
             gbc.gridy = 0;
             board.add(upperColumn, gbc);
 
@@ -175,13 +184,13 @@ public class GameFrame extends JFrame {
             board.add(lowerColumn, gbc);
         }
 
-        gbc.gridwidth = 2;
+        gbc.gridwidth = 1;
         gbc.gridheight = 1;
         gbc.gridx = 6;
         gbc.gridy = 0;
         board.add(whiteHitCheckers, gbc);
 
-        gbc.gridwidth = 2;
+        gbc.gridwidth = 1;
         gbc.gridheight = 1;
         gbc.gridx = 6;
         gbc.gridy = 2;
@@ -189,7 +198,7 @@ public class GameFrame extends JFrame {
 
         gbc.gridwidth = 1;
         gbc.gridheight = 1;
-        gbc.gridx = 10;
+        gbc.gridx = 9;
         gbc.gridy = 1;
         board.add(leftDie, gbc);
         gbc.gridx += 1;
@@ -197,7 +206,7 @@ public class GameFrame extends JFrame {
 
         gbc.gridwidth = 1;
         gbc.gridheight = 1;
-        gbc.gridx = 14;
+        gbc.gridx = 13;
         gbc.gridy = 0;
         board.add(blackBornOffCheckers, gbc);
         gbc.gridy += 2;

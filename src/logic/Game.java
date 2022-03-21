@@ -10,9 +10,6 @@ public class Game {
         //dice
         public int numberOnDie1;
         public int numberOnDie2;
-        // turn and moves
-        public List<Integer> validMoves;
-        public Color turn;
         // state of checkers
         public List<Integer> numberOfCheckersOnColumn;
         public List<Color> colorOfCheckersOnColumn;
@@ -23,22 +20,22 @@ public class Game {
 
     }
 
-    private Die die1;
-    private Die die2;
+    private final Die die1;
+    private final Die die2;
 
-    private List<Column> points;
-    private Column whiteCapturedCheckers;
-    private Column blackCapturedCheckers;
-    private Column whiteBornOffCheckers;
-    private Column blackBornOffCheckers;
+    private final List<Column> points;
+    private final Column whiteCapturedCheckers;
+    private final Column blackCapturedCheckers;
+    private final Column whiteBornOffCheckers;
+    private final Column blackBornOffCheckers;
     private Rule ruleRoot;
 
-    public static final List<Integer> NUMBER_OF_CHECKERS = Arrays.asList(new Integer[]{2, 0, 0, 0, 0, 5,    0, 3, 0, 0, 0, 5,
-                                                                                         5, 0, 0, 0, 3, 0,   5, 0, 0, 0, 0, 2});
-    public static final List<Color> COLOR_OF_CHECKERS = Arrays.asList(new Color[]{Color.BLACK, null, null, null, null, Color.WHITE,
-                                                                                null, Color.WHITE, null, null, null, Color.BLACK,
-                                                                                Color.WHITE, null, null, null, Color.BLACK, null,
-                                                                                Color.BLACK, null, null, null, null, Color.WHITE});
+    public static final List<Integer> NUMBER_OF_CHECKERS = Arrays.asList(2, 0, 0, 0, 0, 5, 0, 3, 0, 0, 0, 5,
+                                                                         5, 0, 0, 0, 3, 0, 5, 0, 0, 0, 0, 2);
+    public static final List<Color> COLOR_OF_CHECKERS = Arrays.asList(Color.BLACK, null, null, null, null, Color.WHITE,
+                                                                        null, Color.WHITE, null, null, null, Color.BLACK,
+                                                                        Color.WHITE, null, null, null, Color.BLACK, null,
+                                                                        Color.BLACK, null, null, null, null, Color.WHITE);
 
     public Game(){
         die1 = new Die();
@@ -60,7 +57,6 @@ public class Game {
 
         state.numberOnDie1 = die1.getNumber();
         state.numberOnDie2 = die2.getNumber();
-        state.validMoves = Arrays.asList(1, 1, 1, 1);
 
         state.numberOfCheckersOnColumn = points.stream().map(Column::getNumberOfCheckers).collect(Collectors.toList());
         state.colorOfCheckersOnColumn = points.stream().map(Column::getColor).collect(Collectors.toList());

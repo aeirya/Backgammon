@@ -16,7 +16,6 @@ public class Main {
         Game.GameState state = new Game.GameState();
         state.numberOnDie1 = 3;
         state.numberOnDie2 = 6;
-        state.validMoves = new ArrayList<>();
         state.numberOfCheckersOnColumn = new ArrayList<>();
         state.colorOfCheckersOnColumn = new ArrayList<>();
         state.numberOfBlackHitCheckers = 3;
