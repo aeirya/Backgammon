@@ -23,6 +23,7 @@ public class CheckerColumn extends JButton{
         setLayout(null);
         setOpaque(false);
         setFocusable(false);
+        setContentAreaFilled(false);
         setBorderPainted(false);
         this.direction = direction;
         this.dimension = dimension;
